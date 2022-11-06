@@ -2,7 +2,7 @@ import App from './App'
 import Http from './request/request.js'
 // #ifndef VUE3
 import Vue from 'vue'
-Vue.prototype.$Http = Http
+Vue.prototype.$http = Http
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({

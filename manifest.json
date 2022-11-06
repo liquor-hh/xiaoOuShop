@@ -48,6 +48,20 @@
     },
     /* 快应用特有相关 */
     "quickapp" : {},
+	/* h5 */
+	"h5": {
+		"devServer": {
+			"proxy": {
+				"/api": {
+					"target": "http://43.142.240.214:3000",
+					"changeOrigin": true,
+					"pathRewrite": {
+						"/api": "/api"
+					}
+				}
+			}
+		}
+	},
     /* 小程序特有相关 */
     "mp-weixin" : {
         "appid" : "",

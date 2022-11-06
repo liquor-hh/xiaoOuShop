@@ -3,18 +3,24 @@ class Http {
 	request(opts) {
 		uni.getStorageSync('token') && (token = uni.getStorageSync('token'))
 		let header = {
-			token,
+			'authorization': token,
 			'Content-Type': 'application/json;charset=UTF-8'
 		}
 		return new Promise(resolve => {
 			uni.request({
-				url:opts.url,
-				method:: opts.method || 'GET',
+				// #ifdef H5
+				url: opts.url,
+				// #endif
+				
+				// #ifndef H5
+				url: 'http://43.142.240.214:3000' + opts.url
+				// #endif
+				method: opts.method || 'GET',
 				header,
-				data: data.data,
+				data: opts.data,
 				success(res) {
 					if(res.statusCode === 200) {
-						resolve(res)
+						resolve(res.data)
 						if(res.data.code === 401) {
 							resolve('权限认证失败')
 						}
