@@ -1,5 +1,6 @@
 import App from './App'
 import Http from './request/request.js'
+import Tabbar from '@/components/tabBar'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.prototype.$http = Http

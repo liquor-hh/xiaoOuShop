@@ -14,7 +14,12 @@
 
 <style>
 	/*每个页面公共css */
-	@import url("@/iconfont/iconfont.css");
+	@import url("@/fonts/iconfont.css");
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
 	.container {
 		width: 100%;
 		height: 100%;

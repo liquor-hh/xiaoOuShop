@@ -16,12 +16,12 @@ class Http {
 				url: 'http://43.142.240.214:3000' + opts.url
 				// #endif
 				method: opts.method || 'GET',
-				header,
 				data: opts.data,
+				header,
 				success(res) {
-					if(res.statusCode === 200) {
+					if (res.statusCode === 200) {
 						resolve(res.data)
-						if(res.data.code === 401) {
+						if (res.data.code === 401) {
 							resolve('权限认证失败')
 						}
 					}

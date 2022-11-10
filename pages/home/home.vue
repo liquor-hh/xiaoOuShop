@@ -4,31 +4,48 @@
 			<image src="/static/logo.png" mode="aspectFit"></image>
 			<input type="text">
 			<!-- #ifndef  WP-MP-WEIXIN -->
-			<view class="iconfont icon-gengduo"></view>
+			<i class="iconfont icon-gengduo"></i>
+			<!-- #endif -->
+			<!-- #ifdef MP-WEIXIN -->
+			<i></i>
 			<!-- #endif -->
 		</view>
-		<scroll-view class="main">
+		<scroll-view class="main" scroll-y>
+			<!-- 轮播 -->
 			<swiper change="swiper-contaner" autoplay interval="1000" circular>
-				<swiper-item class="swiper-item" v-for="{item, index} in bannerList" :key="item.id">
+				<swiper-item class="swiper-item" v-for="(item, index) in bannerList" :key="item.id">
 					<image :src="'http://43.142.240.214:3000' + item.img" mode=""></image>
 				</swiper-item>
 			</swiper>
+			<!-- 4个图标导航 -->
+			<view class="nav-container">
+				<view class="nav-item" v-for="(item, index) in navList" :key="index">
+					<i :class="['iconfont', item.icon]"></i>
+					<view>{{ item.title }}</view>
+				</view>
+			</view>
+			<!-- tab切换 -->
 			<view class="tab-container">
-				<view :class="['tab-item', index == tabIndex ? 'active' : '']" v-for="{item, index} in tabList" :key="index" @click="tabChange(index)">
+				<view :class="['tab-item', index == tabIndex ? 'active' : '']" v-for="(item, index) in tabList" :key="index" @click="tabChange(index)">
 					{{ item }}
 				</view>
 			</view>
+			<!-- 商品列表 -->
 			<view class="goods-container">
-				<view class="good-item" v-for="{item, index} in goodsList" :key="index">
-					<image :src="'http://43.142.240.214:3000' + item.img" mode=""></image>
+				<view class="good-item" v-for="(item, index) in goodsList" :key="index">
+					<image :src="'http://43.142.240.214:3000' + item.img"></image>
 					<view class="good-content">
-						
+						<view class="title">
+							{{ item.goodsname }}
+						</view>
+						<view class="price">
+							￥{{ item.price }}
+						</view>
+						<view>已售800件</view>
+						<view class="buy-btn">
+							立即抢购
+						</view>
 					</view>
-				</view>
-			</view>
-			<view class="nav-container">
-				<view class="nav-item" v-for="{item, index} in navList" :key="index">
-					<i :class="['iconfont']"></i>
 				</view>
 			</view>
 		</scroll-view>
@@ -40,35 +57,31 @@
 
 <script>
 	import API from '../../request/api.js'
-	import tabBar from '@/components/tabBar.vue'
 	export default {
-		components: {
-			tabBar
-		},
 		data() {
 			return {
-				bannerList: null,
+				bannerList: [],
 				goodsList: [],
 				tabIndex: 0,
 				tabList: ['热门推荐','最新上架','所有商品'],
 				navList: [
 					{
-						icon: '',
+						icon: 'icon-xianshiqianggou',
 						title: '限时抢购'
 					},
 					{
-						icon: '',
+						icon: 'icon-jifentixicopy',
 						title: '积分商城'
 					},
 					{
-						icon: '',
+						icon: 'icon-lianxiwomen',
 						title: '联系我们'
 					},
 					{
-						icon: '',
-						title: '限时抢购'
-					}
-				],
+						icon: 'icon--shangpinfenlei-gai',
+						title: '商品分类'
+					},
+				]
 				
 			};
 		},
@@ -104,20 +117,21 @@
 				// #ifdef MP-WEIXIN
 				let menu = uni.getMenuButtonBoundingClientRect()
 				return {
-					statusHeight: menu.height + (menu.top - area.statusHeight) * 2
+					statusHeight: menu.height + (menu.top - area.statusHeight) * 2,
+					uniHeight: uni.upx2px(80)
 				}
 				// #endif
 				
 				// #ifndef MP-WEIXIN
 				return {
 					statusHeight: area.statusHeight,
-					uniHeight: uni.upx2px(80)
 				}
 				// #endif
 			}
 		},
 		onLoad() {
 			this.getBannerList()
+			this.getGoodsList()
 		}
 	}
 </script>
@@ -129,10 +143,19 @@
 		.header {
 			display: flex;
 			justify-content: space-between;
-			height: 86rpx;
+			align-items: center;
+			input {
+				width: 306rpx;
+				height: 38rpx;
+				background-color: #eee;
+			}
 			image {
 				width: 50rpx;
 				height: 50rpx;
+			}
+			.iconfont {
+				font-size: 80rpx;
+				color: #333;
 			}
 		}
 		.main {
@@ -203,6 +226,9 @@
 		}
 		.footer {
 			height: 122rpx;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
 		}
 	}
 </style>
