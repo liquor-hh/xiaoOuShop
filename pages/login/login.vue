@@ -2,7 +2,7 @@
 	<view class="container">
 		<view class="phone flex-row">
 			<view>手机号</view>
-			<input type="text">
+			<input type="text" v-model="phone">
 		</view>
 		<view class="password flex-row">
 			<view>密码</view>
@@ -33,7 +33,7 @@
 				})
 			},
 			loginFn() {
-				this.$http.get({
+				this.$http.post({
 					url: API.login.login,
 					data: {
 						phone: this.phone,
@@ -41,16 +41,17 @@
 					}
 				}).then(res => {
 					if (res.code == 200) {
-						let { uid, token } = res
-						uni.setStorageSync('authorization', token)
+						let { token, uid } = res.list
+						uni.setStorageSync('uid', uid)
+						uni.setStorageSync('token', token)
 						let redirectPath = uni.getStorageSync('redirectPath')
-						
+						uni.removeStorageSync('redirectPath')
+						uni.redirectTo({
+							url: redirectPath
+						})
 					}
 				})
 			}
-		},
-		onLoad(options) {
-			this.page = options.page
 		}
 	}
 </script>
@@ -62,9 +63,9 @@
 			border: 1px solid #ebebeb;
 		}
 	}
-	.login {
+	.login, .register {
 		width: 100rpx;
 		height: 60rpx;
-		
+		border: 1px solid #f26b11
 	}
 </style>

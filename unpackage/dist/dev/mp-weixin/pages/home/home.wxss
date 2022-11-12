@@ -31,11 +31,20 @@
 .container .header {
   display: flex;
   justify-content: space-between;
-  height: 86rpx;
+  align-items: center;
+}
+.container .header input {
+  width: 306rpx;
+  height: 38rpx;
+  background-color: #eee;
 }
 .container .header image {
   width: 50rpx;
   height: 50rpx;
+}
+.container .header .iconfont {
+  font-size: 80rpx;
+  color: #333;
 }
 .container .main {
   flex: 1;
@@ -104,5 +113,8 @@
 }
 .container .footer {
   height: 122rpx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 

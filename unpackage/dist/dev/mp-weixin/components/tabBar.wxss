@@ -30,12 +30,19 @@
   background-color: #fff;
   border-top: 1rpx solid #ebebeb;
   display: flex;
-  justify-content: space-between;
 }
-.footer-tabBar .tabBar-item .image {
+.footer-tabBar .tabBar-item {
+  padding: 10rpx 0;
+  text-align: center;
+  flex: 1;
+}
+.footer-tabBar .tabBar-item image {
   width: 50rpx;
   height: 50rpx;
   margin-bottom: 10rpx;
+}
+.footer-tabBar .tabBar-item .text {
+  font-size: 20rpx;
 }
 .footer-tabBar .tabBar-item .active {
   color: red;

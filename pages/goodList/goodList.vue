@@ -4,12 +4,12 @@
 			<view class="search-container">
 				<input type="text" v-model="searchVal" @confirm="searchFn">
 				<view class="search-icon" v-show="!searchVal">
-					<i class="iconfont "></i>
-					
+					<i class="iconfont icon-gengduo"></i>
+					<view>搜索商品</view>
 				</view>
 			</view>
 			<view class="goods-container">
-				<view class="good-item" v-for="{item, index} in goodsList" :key="index" @click="goGoodDetail(item)">
+				<view class="good-item" v-for="(item, index) in goodsList" :key="index" @click="goGoodDetail(item)">
 					<image :src="'http://43.142.240.214:3000' + item.img"></image>
 					<view class="content">
 						<view class="title">
@@ -32,7 +32,8 @@
 		data() {
 			return {
 				searchVal: "",
-				id: ''
+				id: '',
+				goodsList: []
 			};
 		},
 		methods: {
@@ -44,7 +45,7 @@
 						keyword
 					}
 				}).then(res => {
-					
+					this.goodsList = res.list
 				})
 			},
 			goGoodDetail(item) {

@@ -1,15 +1,21 @@
 <template>
 	<view>
-		
+		<view class="footer">
+			<tabBar page="/pages/shopCart/shopCart"></tabBar>
+		</view>
 	</view>
 </template>
 
 <script>
 	import API from '../../request/api.js'
+	import tabBar from '@/components/tabBar.vue'
 	export default {
+		components: {
+			tabBar
+		},
 		data() {
 			return {
-				
+				uid: ''
 			};
 		},
 		methods: {
@@ -29,16 +35,16 @@
 					title: "提示",
 					showCancel: false,
 					content: "您还未登录，请先去登录",
-					success() {
+					success(res) {
 						if (res.confirm) {
+							uni.setStorageSync('redirctPath', '/pages/shopCart/shopCart')
 							uni.redirectTo({
-								url: '/pages/login/login?page=shopcar'
+								url: '/pages/login/login'
 							})
 						}
 					}
 				})
 			} else {
-				this.uid = uid
 				this.getCartList()
 			}
 		}

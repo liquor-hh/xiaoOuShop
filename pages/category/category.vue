@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="header">
+		<view class="header" :style="{ paddingTop: headArea.statusHeight + 'px', height: headArea.headerHeight + 'px'}">
 			<view class="back">
 				&lt;
 			</view>
@@ -8,14 +8,19 @@
 				商品分类
 			</view>
 			<!-- #ifdef MP-WEIXIN -->
+			<i class="iconfont icon-gengduo"></i>
+			<!-- #endif -->
+			<!-- #ifndef MP-WEIXIN -->
+			<i></i>
+			<!-- #endif -->
 			<view class="main">
 				<view class="first-cate">
-					<view :class="['first-item', index == firstCateId ? active : '']" v-for="{item, index} in firstCate" :key="index" @click="changeSecondCate(index)">
+					<view :class="['first-item', index == firstCateId ? active : '']" v-for="(item, index) in firstCate" :key="index" @click="changeSecondCate(index)">
 						{{ item.catename }}
 					</view>
 				</view>
 				<view class="second-cate">
-					<view class="second-item" v-for="{item, index} in secondCate" :key="index" @click="goGoodList(index)">
+					<view class="second-item" v-for="(item, index) in secondCate" :key="index" @click="goGoodList(item)">
 						<image :src="'http://43.142.240.214:3000' + item.img"></image>
 						<view>{{ item.catename }}</view>
 					</view>
@@ -31,7 +36,8 @@
 		data() {
 			return {
 				firstCate: [],
-				secondCate: []
+				secondCate: [],
+				firstCateInd: 0
 			};
 		},
 		methods: {
@@ -44,13 +50,36 @@
 				})
 			},
 			changeSecondCate(index) {
+				this.firstCateInd = index
 				this.getCategory(index)
 			},
-			goGoodList(index) {
+			goGoodList(item) {
 				uni.navigateTo({
-					url: '/pages/goodList/goodList'
+					url: '/pages/goodList/goodList?id=' + item.id
 				})
 			}
+		},
+		computed: {
+			headArea() {
+				let area = uni.getSystemInfoSync()
+				// #ifdef MP-WEIXIN
+				let menu = uni.getMenuButtonBoundingClientRect()
+					return {
+						statusHeight: area.statusBarHeight,
+						headerHeight: menu.height + (menu.top - area.statusBarHeight) * 2
+					}
+				// #endif
+				
+				// #ifndef MP-WEIXIN
+					return {
+						statusHeight: area.statusBarHeight,
+						headerHeight: uni.upx2px(80)
+					}
+				// #endif
+			}
+		},
+		onLoad() {
+			this.getCategory()
 		}
 	}
 </script>

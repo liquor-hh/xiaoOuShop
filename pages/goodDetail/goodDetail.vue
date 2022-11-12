@@ -5,17 +5,17 @@
 		</view>
 		<view class="good-content">
 			<view class="title">
-					
+				{{ goodsDetail && goodsDetail.goodsname }}
 			</view>
 			<view class="price">
-				
+				{{ goodsDetail && goodsDetail.price }}
 			</view>
 			<view class="count-container">
 				<view>购买数量</view>
 				<view class="count-operate">
-					<i class="iconfont icon-jianhao"></i>
+					<i class="iconfont icon-jianhao" @click="reduce"></i>
 					<input type="text" v-model="count">
-					<i class="iconfont icon-jiahao"></i>
+					<i class="iconfont icon-jiahao" @click="add"></i>
 				</view>
 			</view>
 		</view>
@@ -26,22 +26,32 @@
 					1
 				</view>
 			</view>
+			<view class="btns">
+				<view class="addCar" @click="addCar">
+					加入购物车
+				</view>
+				<view class="buy">
+					立即购买
+				</view>
+			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import API from '../../request/api.js'
 	export default {
 		data() {
 			return {
 				id: '',
+				count: 0,
 				goodsDetail: []
 			};
 		},
 		methods: {
 			getGoodDetail() {
 				this.$http.get({
-					url: API.detail.getGoodDetail,
+					url: API.gooddetail.getGoodsDetail,
 					data: {
 						id: this.id
 					}
@@ -61,13 +71,17 @@
 					url: API.shopcar.addCart,
 					data: {
 						uid: uni.getStorageSync('uid'),
-						
+						goodsid: this.id,
+						num: this.count
 					}
+				}).then(res => {
+					console.log(res);
 				})
 			}
 		},
 		onLoad(options) {
 			this.id = options.id
+			this.getGoodDetail()
 		}
 	}
 </script>
@@ -88,6 +102,7 @@
 			height: 56rpx;
 			input {
 				height: 56rpx;
+				width: 80rpx;
 				border: 1px solid #ebebeb;
 				text-align: center;
 			}
@@ -101,10 +116,13 @@
 		}
 	}
 	.footer {
+		display: flex;
 		position: fixed;
+		width: 100%;
 		height: 110rpx;
 		bottom: 0;
 		.shopCar {
+			position: relative;
 			width: 170rpx;
 			display: flex;
 			justify-content: center;
@@ -132,6 +150,14 @@
 				flex: 1;
 				height: 110rpx;
 				line-height: 110rpx;
+				text-align: center;
+				color: #fff;
+				&.addCar {
+					background-color: #f26b11;
+				}
+				&.buy {
+					background-color: #e43a3d;
+				}
 			}
 		}
 	}

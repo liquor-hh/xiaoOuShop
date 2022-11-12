@@ -1,1 +1,1 @@
-<view></view>
+<view><view class="footer"><tab-bar vue-id="174cb680-1" page="/pages/shopCart/shopCart" bind:__l="__l"></tab-bar></view></view>

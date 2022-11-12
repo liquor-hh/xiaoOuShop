@@ -19,7 +19,7 @@
 			</swiper>
 			<!-- 4个图标导航 -->
 			<view class="nav-container">
-				<view class="nav-item" v-for="(item, index) in navList" :key="index">
+				<view class="nav-item" v-for="(item, index) in navList" :key="index" @click="navigate(index)">
 					<i :class="['iconfont', item.icon]"></i>
 					<view>{{ item.title }}</view>
 				</view>
@@ -49,15 +49,19 @@
 				</view>
 			</view>
 		</scroll-view>
-		<!-- <view class="footer">
-			<tabBar page=""></tabBar>
-		</view> -->
+		<view class="footer">
+			<tabBar page="/pages/home/home"></tabBar>
+		</view>
 	</view>
 </template>
 
 <script>
 	import API from '../../request/api.js'
+	import tabBar from '@/components/tabBar.vue'
 	export default {
+		components: {
+			tabBar
+		},
 		data() {
 			return {
 				bannerList: [],
@@ -104,6 +108,13 @@
 						this.goodsList = res.list[ind].content
 					}
 				})
+			},
+			navigate(i) {
+				if (i == 3) {
+					uni.navigateTo({
+						url: '/pages/category/category'
+					})
+				}
 			},
 			tabChange(index) {
 				this.tabIndex = index

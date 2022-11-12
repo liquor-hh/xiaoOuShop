@@ -2,7 +2,12 @@
   "pages": [
     "pages/home/home",
     "pages/shopCart/shopCart",
-    "pages/my/my"
+    "pages/my/my",
+    "pages/category/category",
+    "pages/goodList/goodList",
+    "pages/goodDetail/goodDetail",
+    "pages/login/login",
+    "pages/register/register"
   ],
   "subPackages": [],
   "window": {

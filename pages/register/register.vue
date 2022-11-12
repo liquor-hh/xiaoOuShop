@@ -2,15 +2,15 @@
 	<view class="container">
 		<view class="phone flex-row">
 			<view>手机号</view>
-			<input type="text">
+			<input type="text" v-model="phone">
 		</view>
 		<view class="nick flex-row">
 			<view>昵称</view>
-			<input type="text">
+			<input type="text" v-model="nickname">
 		</view>
 		<view class="password flex-row">
 			<view>密码</view>
-			<input type="text">
+			<input type="text" v-model="password">
 		</view>
 		<view class="register" @click="registerFn">
 			注册
@@ -30,16 +30,18 @@
 		},
 		methods: {
 			registerFn() {
-				this.$http.get({
+				this.$http.post({
 					url: API.login.register,
 					data: {
-						phone = this.phone
-						password = this.password
-						nickname = this.nickname
+						phone: this.phone,
+						password: this.password,
+						nickname: this.nickname
 					}
 				}).then(res => {
 					if (res.code == 200) {
-						
+						uni.redirectTo({
+							url: '/pages/login/login'
+						})
 					}
 				})
 			}
